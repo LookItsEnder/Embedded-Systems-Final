@@ -2,6 +2,7 @@
 
 
 Servo servoX; //X rotation Servo
+Servo servoY; //Y rotation Servo
 const int X_pin = 0; // This pin is for analog controls of the X servo
 const int Y_pin = 1; // This pin is for analog controls of the Y servo
 
@@ -22,6 +23,7 @@ void setup() {
   // put your setup code here, to run once:
   // Servos :)
   servoX.attach(9); // Pin for Signal input on the X servo
+  servoY.attach(8); // Pin for Signal input on the Y servo
   Serial.begin(9600); // setup for the serial
 }
 
@@ -29,16 +31,6 @@ void loop() {
   // put your main code here, to run repeatedly:
   int xpos;
 
-  if(xpos > 2368){ // rollover for turning right
-    while(xpos >= 760){
-      xpos -= 20;
-    }
-  }
-  if(xpos < 760){ // rollover for turning left (Not fully functional)
-    while(xpos <= 2368){
-      xpos += 20;
-    }
-  }
 
   xpos = checkRotation(xpos);
   Serial.println(xpos); // used to see what the position is on the servo
