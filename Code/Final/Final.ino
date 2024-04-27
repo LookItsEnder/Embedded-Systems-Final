@@ -8,13 +8,21 @@ const int Y_pin = 1; // This pin is for analog controls of the Y servo
 
 int checkRotation(int pos){ // Used for rotation of servo :)
   int reading = analogRead(X_pin);
+  int degree = servoX.read();
 
-  if(reading >= 0 && reading <= 494){ // the reading is to the left 
-    pos -= 20; // Turns the servo to the left
+  if(reading <= 494){ // the reading is to the left 
+    pos -= 5; // Turns the servo to the left
   }
-  if(reading >= 530 && reading <= 1024){ // the reading is to the right
-    pos += 20; // Turns the servo to the right
+  if(reading >= 530){ // the reading is to the right
+    pos += 5; // Turns the servo to the right
   }
+  if(degree == 0){
+    for(int i = 0; i < 5; i++){
+      servoX.write(i);
+      
+    }
+  }
+  
   return pos;
 }
 
@@ -33,7 +41,8 @@ void loop() {
 
 
   xpos = checkRotation(xpos);
-  Serial.println(xpos); // used to see what the position is on the servo
+  Serial.println(servoX.read()); // used to see what the position is on the servo
+  Serial.println(xpos);
   servoX.write(xpos);
   
   delay(20); // Low delay for near instant movement from the servo
