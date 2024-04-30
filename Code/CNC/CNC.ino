@@ -11,13 +11,13 @@ bool elevated; // Controls the elevation of the pen arm.
 
 void penElevation(){
   if(elevated){ // Lowers the pen Arm
-    for(int i = 180; i >= 50; i--){
+    for(int i = 180; i >= 90; i--){
       penServ.write(i);
     }
     elevated = false;
   }
   else{ //Arm is already lowered, needs to be raised.
-    for(int i = 50; i <= 180; i++){
+    for(int i = 90; i <= 180; i++){
       penServ.write(i);
     }
     elevated = true;
@@ -36,25 +36,29 @@ void setup() {
   // Attach an ISR to the switch input so we can raise and lower the arm with ease
   pinMode(2, INPUT_PULLUP);
   elevated = true; // Pen arm should automatically be elevated.
-  attachInterrupt(digitalPinToInterrupt(sw_pin), penElevation, FALLING);
+  attachInterrupt(digitalPinToInterrupt(sw_pin), penElevation, CHANGE);
 
+  Serial.begin(9600);
   penServ.attach(9); // Pin for signal input on servo for pencil
+  penServ.write(100);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:   
   int y_reading = analogRead(Y_pin);
-  if(y_reading <= 532 && >= 492){
-    pinMode(motorY1, HIGH);
-    pinMode(motorY2, HIGH);
+  Serial.println(y_reading);
+
+  if(y_reading <= 553 && y_reading >= 513){
+    digitalWrite(motorY1, HIGH);
+    digitalWrite(motorY2, HIGH);
   }
-  if(y_reading > 532){
-    pinMode(motorY1, HIGH);
-    pinMode(motorY2, LOW);
+  if(y_reading > 553){
+    digitalWrite(motorY1, HIGH);
+    digitalWrite(motorY2, LOW);
   }
-  if(y_reading < 492){
-    pinMode(motorY1, LOW);
-    pinMode(motorY2, HIGH);
+  if(y_reading < 513){
+    digitalWrite(motorY1, LOW);
+    digitalWrite(motorY2, HIGH);
   }
   
 }
