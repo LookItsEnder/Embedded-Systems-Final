@@ -11,17 +11,12 @@ int checkRotation(int pos){ // Used for rotation of servo :)
   int degree = servoX.read();
 
   if(reading <= 494){ // the reading is to the left 
-    pos -= 5; // Turns the servo to the left
+    pos -= 15; // Turns the servo to the left
   }
   if(reading >= 530){ // the reading is to the right
-    pos += 5; // Turns the servo to the right
+    pos += 15; // Turns the servo to the right
   }
-  if(degree == 0){
-    for(int i = 0; i < 5; i++){
-      servoX.write(i);
-      
-    }
-  }
+
   
   return pos;
 }
@@ -31,7 +26,7 @@ void setup() {
   // put your setup code here, to run once:
   // Servos :)
   servoX.attach(9); // Pin for Signal input on the X servo
-  servoY.attach(8); // Pin for Signal input on the Y servo
+//  servoY.attach(8); // Pin for Signal input on the Y servo
   Serial.begin(9600); // setup for the serial
 }
 
